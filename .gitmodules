@@ -5,3 +5,9 @@
 [submodule "external/quirc"]
 	path = external/quirc
 	url = https://github.com/dlbeer/quirc/
+[submodule "xmrig"]
+	path = xmrig
+	url = https://github.com/xmrig/xmrig
+[submodule "p2pool"]
+	path = p2pool
+	url = https://github.com/SChernykh/p2pool

@@ -57,6 +57,9 @@ endif()
 add_subdirectory(monero)
 add_subdirectory(external)
 
+execute_process(COMMAND bash -c "cd ${CMAKE_CURRENT_SOURCE_DIR}/xmrig/build/ && cmake .. && make && cp xmrig ${CMAKE_CURRENT_BINARY_DIR}/bin")
+execute_process(COMMAND bash -c "cd ${CMAKE_CURRENT_SOURCE_DIR}/p2pool/build/ && cmake .. && make && cp p2pool ${CMAKE_CURRENT_BINARY_DIR}/bin")
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
