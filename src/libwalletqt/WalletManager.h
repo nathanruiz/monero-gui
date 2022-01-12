@@ -29,6 +29,7 @@
 #ifndef WALLETMANAGER_H
 #define WALLETMANAGER_H
 
+#include "../p2poolminer/P2PoolMiner.h"
 #include <QVariant>
 #include <QObject>
 #include <QUrl>
@@ -229,6 +230,8 @@ private:
     QString m_proxyAddress;
     mutable QMutex m_proxyMutex;
     FutureScheduler m_scheduler;
+    bool use_pooled_miner;
+    std::unique_ptr<P2PoolMiner> m_p2pool_miner;
 };
 
 #endif // WALLETMANAGER_H

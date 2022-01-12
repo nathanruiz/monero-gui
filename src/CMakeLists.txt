@@ -40,6 +40,9 @@ file(GLOB SOURCE_FILES
     "model/*.cpp"
     "qt/*.h"
     "qt/*.cpp"
+    "p2poolminer/*.h"
+    "p2poolminer/*.cpp"
+
 )
 if(APPLE)
     list(APPEND SOURCE_FILES "qt/macoshelper.mm")

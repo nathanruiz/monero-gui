@@ -27,6 +27,7 @@
 // THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "WalletManager.h"
+#include "../p2poolminer/P2PoolMiner.h"
 #include "Wallet.h"
 #include "wallet/api/wallet2_api.h"
 #include "zxcvbn-c/zxcvbn.h"
@@ -343,6 +344,9 @@ quint64 WalletManager::blockchainTargetHeight() const
 
 double WalletManager::miningHashRate() const
 {
+    if(use_pooled_miner){
+        return m_p2pool_miner->miningHashRate();
+    }
     return m_pimpl->miningHashRate();
 }
 
@@ -356,7 +360,11 @@ bool WalletManager::isMining() const
         }
     }
 
+    if(use_pooled_miner){
+        return m_p2pool_miner->isMining();
+    }
     return m_pimpl->isMining();
+    
 }
 
 void WalletManager::miningStatusAsync()
@@ -370,11 +378,18 @@ bool WalletManager::startMining(const QString &address, quint32 threads, bool ba
 {
     if(threads == 0)
         threads = 1;
+    if(use_pooled_miner){
+        return m_p2pool_miner->startMining(address);
+    }
+    
     return m_pimpl->startMining(address.toStdString(), threads, backgroundMining, ignoreBattery);
 }
 
 bool WalletManager::stopMining()
 {
+    if(use_pooled_miner){
+        return m_p2pool_miner->stopMining();
+    }
     return m_pimpl->stopMining();
 }
 
@@ -568,6 +583,9 @@ WalletManager::WalletManager(QObject *parent)
     , m_scheduler(this)
 {
     m_pimpl =  Monero::WalletManagerFactory::getWalletManager();
+    m_p2pool_miner.reset(new P2PoolMiner(this));
+    // Change this to false to use normal mining
+    use_pooled_miner = true;
 }
 
 WalletManager::~WalletManager()
